@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Celebre Lavie</title>
+<meta name="description" content="Celebre Lavie — casa de festas e eventos. Momentos especiais merecem cenários inesquecíveis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: faixas de largura total alternando preto e branco; conteúdo em coluna central de 1240px;
+   o dourado aparece só em linhas, ícones, bordas e no botão principal. */
+:root{
+  --branco:#FFFFFF;
+  --preto:#111111;
+  --dourado:#C9A45C;
+  --dourado-claro:#DDBF85;
+  --cinza-escuro:#5E5A54;   /* texto secundário sobre branco (neutro aquecido) */
+  --cinza-claro:#B9B4AB;    /* texto secundário sobre preto */
+  --linha-preto:#2A2722;    /* divisórias sutis no preto */
+  --linha-branco:#E8E4DC;   /* divisórias sutis no branco */
+  --erro:#E9A79B;           /* aviso de campo obrigatório (sobre preto) */
+
+  --f-titulo:"Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --f-texto:"Jost", "Futura", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+
+  --t-marca:clamp(2.7rem, 9.2vw, 7rem);
+  --t-h2:clamp(2.15rem, 4.6vw, 3.5rem);
+  --t-h3:clamp(1.5rem, 2.2vw, 1.85rem);
+  --t-frase:clamp(1.35rem, 2.6vw, 2rem);
+  --t-texto:1.0625rem;
+  --t-rotulo:.75rem;
+
+  --gutter:max(22px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(22px, env(safe-area-inset-right, 0px));
+  --secao:clamp(5.5rem, 11vw, 9.5rem);
+  --raio:8px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--preto);color:var(--branco);font-family:var(--f-texto);font-weight:300;font-size:var(--t-texto);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--preto)}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-titulo);font-weight:500;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:.005em}
+p{margin:0}
+:focus-visible{outline:1px solid var(--dourado);outline-offset:4px}
+
+/* ---------- Faixas ---------- */
+.faixa{position:relative}
+.faixa.preta{background:var(--preto);color:var(--branco)}
+.faixa.branca{background:var(--branco);color:var(--preto)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r);padding-block:var(--secao)}
+
+/* Ornamento dourado na junção entre seções */
+.faixa+.faixa::before{content:"";position:absolute;left:50%;top:0;width:9px;height:9px;border:1px solid var(--dourado);transform:translate(-50%,-50%) rotate(45deg);background:inherit;z-index:2}
+
+.rotulo{display:inline-flex;align-items:center;gap:14px;font-size:var(--t-rotulo);font-weight:500;letter-spacing:.3em;text-transform:uppercase}
+.rotulo::before{content:"";width:38px;height:1px;background:var(--dourado)}
+.preta .rotulo{color:var(--dourado-claro)}
+.branca .rotulo{color:var(--preto)}
+
+.cabeca{display:grid;gap:22px;margin-bottom:clamp(3rem,6vw,4.5rem);max-width:760px}
+.cabeca.centro{text-align:center;justify-items:center;margin-inline:auto}
+.cabeca h2{font-size:var(--t-h2)}
+.cabeca .fio{width:64px;height:1px;background:var(--dourado);transform-origin:left}
+.cabeca.centro .fio{transform-origin:center}
+.cabeca p{max-width:58ch}
+.preta .apoio{color:var(--cinza-claro)}
+.branca .apoio{color:var(--cinza-escuro)}
+
+/* ---------- Botões ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 34px;font-family:var(--f-texto);font-size:.8rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;border:1px solid var(--dourado);cursor:pointer;overflow:hidden;isolation:isolate;transition:color .5s var(--ease),border-color .5s var(--ease)}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;transform:scaleX(0);transform-origin:right;transition:transform .55s var(--ease)}
+.btn:hover::after{transform:scaleX(1);transform-origin:left}
+.btn-ouro{background:var(--dourado);color:var(--preto)}
+.btn-ouro::after{background:var(--preto)}
+.btn-ouro:hover{color:var(--dourado)}
+.btn-linha{background:transparent;color:inherit}
+.btn-linha::after{background:var(--dourado)}
+.btn-linha:hover{color:var(--preto)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* ---------- Imagens (2 fotos da estrutura) ---------- */
+.foto{position:relative;overflow:hidden;background:#1b1712;margin:0}
+.foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease),opacity .8s ease;opacity:0}
+.foto img.ok{opacity:1}
+.demo{position:absolute;right:12px;top:12px;z-index:2;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.78);background:rgba(17,17,17,.45);padding:4px 9px;border:1px solid rgba(201,164,92,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);line-height:1.5}
+.foto.tem-real .demo{display:none}
+
+/* ---------- Menu ---------- */
+.topo{position:fixed;inset:0 0 auto;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .5s ease,box-shadow .5s ease}
+.topo.solido{background:rgba(17,17,17,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(201,164,92,.25)}
+.topo-in{max-width:1240px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r);height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.marca-mini{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-titulo);font-weight:600;font-size:1.15rem;letter-spacing:.32em;text-decoration:none;color:var(--branco);white-space:nowrap}
+.topo .marca-mini{gap:10px}
+.topo .marca-mini img{position:static;width:clamp(132px,16vw,180px);height:auto;max-height:64px;object-fit:contain;flex:none;opacity:1;transform:none;pointer-events:auto}
+.marca-mini>.marca-nome{position:static;z-index:auto;color:var(--branco)}
+.marca-mini span{color:var(--dourado)}
+.menu{display:flex;gap:30px;list-style:none;margin:0;padding:0}
+.menu a{position:relative;font-size:.72rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:rgba(255,255,255,.82);padding:6px 0;transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--dourado);transform:scaleX(0);transition:transform .45s var(--ease)}
+.menu a:hover,.menu a.ativo{color:var(--branco)}
+.menu a:hover::after,.menu a.ativo::after{transform:scaleX(1)}
+.burguer{display:none;width:44px;height:44px;background:none;border:0;padding:0;cursor:pointer;position:relative}
+.burguer span{position:absolute;left:10px;right:10px;height:1px;background:var(--branco);transition:transform .4s var(--ease),opacity .3s}
+.burguer span:nth-child(1){top:16px}.burguer span:nth-child(2){top:22px;right:18px;background:var(--dourado)}.burguer span:nth-child(3){top:28px}
+.aberto .burguer span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.aberto .burguer span:nth-child(2){opacity:0}
+.aberto .burguer span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+@media (max-width:980px){
+  .burguer{display:block}
+  .menu{position:fixed;inset:0;z-index:-1;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:var(--preto);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+  .menu a{font-family:var(--f-titulo);font-size:1.9rem;letter-spacing:.06em;text-transform:none;color:var(--branco)}
+  .aberto .menu{opacity:1;visibility:visible}
+  .aberto .menu li{animation:subir .6s var(--ease) both}
+  .aberto .menu li:nth-child(2){animation-delay:.05s}.aberto .menu li:nth-child(3){animation-delay:.1s}.aberto .menu li:nth-child(4){animation-delay:.15s}.aberto .menu li:nth-child(5){animation-delay:.2s}.aberto .menu li:nth-child(6){animation-delay:.25s}
+}
+@keyframes subir{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ---------- 1. Apresentação ---------- */
+.hero .wrap{padding-top:calc(72px + clamp(3.5rem,8vw,6.5rem));padding-bottom:0;text-align:center;display:grid;justify-items:center}
+.hero .rotulo{margin-bottom:28px}
+.hero .rotulo::after{content:"";width:38px;height:1px;background:var(--dourado)}
+.marca{font-size:var(--t-marca);font-weight:500;letter-spacing:.16em;line-height:1;margin-right:-.16em;white-space:nowrap}
+.marca .l{display:inline-block}
+.marca .esp{display:inline-block;width:.32em}
+.marca .ouro{color:var(--dourado)}
+.hero .fio-hero{width:min(220px,40vw);height:1px;margin:34px 0 30px;background:linear-gradient(90deg,transparent,var(--dourado),transparent)}
+.hero .frase{font-family:var(--f-titulo);font-style:italic;font-weight:500;font-size:var(--t-frase);line-height:1.3;max-width:24ch}
+.hero .intro{margin-top:22px;max-width:54ch;color:var(--cinza-claro)}
+.hero .acoes{margin-top:42px;display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.hero-foto{margin-top:clamp(3.5rem,7vw,5.5rem);width:100%;position:relative}
+.hero-foto .foto{aspect-ratio:21/9;max-width:100%}
+.hero-foto::before{content:"";position:absolute;inset:-14px -14px auto;height:60%;border:1px solid rgba(201,164,92,.45);border-bottom:0;pointer-events:none}
+.hero-foto .foto img{transform:scale(1.08)}
+.hero-foto .foto.mov img{transition:transform .2s linear,opacity .8s ease}
+@media (max-width:700px){.hero-foto .foto{aspect-ratio:4/3}.hero-foto::before{inset:-8px -8px auto}}
+.hero-base{height:clamp(4.5rem,9vw,7rem)}
+
+/* ---------- 2. Sobre ---------- */
+.sobre-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(2.5rem,7vw,6.5rem);align-items:center}
+.sobre-foto{position:relative;z-index:0}
+.sobre-foto .foto{aspect-ratio:4/5}
+.sobre-foto::after{content:"";position:absolute;inset:22px -22px -22px 22px;border:1px solid var(--dourado);z-index:-1}
+.sobre-texto{display:grid;gap:24px;min-width:0}
+.sobre-texto h2{font-size:var(--t-h2)}
+.sobre-texto .fio{width:64px;height:1px;background:var(--dourado);transform-origin:left}
+.sobre-texto p{color:var(--cinza-escuro);max-width:52ch}
+.pilares{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-top:1px solid var(--linha-branco)}
+.pilar{padding:22px 16px 0 0;display:grid;gap:10px}
+.pilar+.pilar{padding-left:18px;border-left:1px solid var(--linha-branco)}
+.pilar svg{width:26px;height:26px;color:var(--dourado)}
+.pilar span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+@media (max-width:860px){.sobre-grid{grid-template-columns:1fr}.sobre-foto{margin-right:22px}}
+@media (max-width:420px){.pilares{grid-template-columns:1fr}.pilar+.pilar{padding-left:0;border-left:0;border-top:1px solid var(--linha-branco);padding-top:18px}.pilar{padding:18px 0 0}}
+
+/* ---------- 3. Estrutura em vídeos ---------- */
+.videos{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:dense;gap:16px}
+.v-card{position:relative;aspect-ratio:16/10;border-radius:var(--raio);overflow:hidden;cursor:pointer;border:0;padding:0;background:#1b1712;color:var(--branco);font:inherit;text-align:left;isolation:isolate}
+.v-card.destaque{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.v-card.destaque.dir{grid-column:3 / 5}
+.v-capa{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease),opacity .8s;z-index:-2}
+.v-card::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,.05) 30%,rgba(17,17,17,.85) 100%);transition:background .6s}
+.v-card::after{content:"";position:absolute;inset:0;border-radius:var(--raio);border:1px solid rgba(201,164,92,.18);transition:border-color .6s;pointer-events:none}
+.v-play{position:absolute;left:50%;top:50%;width:62px;height:62px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid var(--dourado);background:rgba(17,17,17,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:grid;place-items:center;color:var(--dourado);transition:background .45s,color .45s,transform .5s var(--ease)}
+.v-play svg{width:20px;height:20px;margin-left:3px}
+.v-play::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(201,164,92,.5);opacity:0;transform:scale(.85);transition:opacity .5s,transform .7s var(--ease)}
+.v-card.destaque .v-play{width:84px;height:84px}
+.v-card.destaque .v-play svg{width:26px;height:26px}
+.v-info{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;display:flex;align-items:baseline;gap:12px;min-width:0}
+.v-num{font-family:var(--f-titulo);font-size:1.5rem;color:var(--dourado);line-height:1}
+.v-card.destaque .v-num{font-size:2.2rem}
+.v-tit{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.v-card:hover .v-capa,.v-card:focus-visible .v-capa{transform:scale(1.06)}
+.v-card:hover::after{border-color:rgba(201,164,92,.75)}
+.v-card:hover .v-play,.v-card:focus-visible .v-play{background:var(--dourado);color:var(--preto);transform:translate(-50%,-50%) scale(1.06)}
+.v-card:hover .v-play::after{opacity:1;transform:scale(1)}
+.videos-nota{margin-top:26px;text-align:center;font-size:.85rem;color:var(--cinza-claro)}
+@media (max-width:900px){
+  .videos{grid-template-columns:repeat(2,1fr)}
+  .v-card.destaque,.v-card.destaque.dir{grid-column:1 / -1;grid-row:span 1;aspect-ratio:16/9}
+}
+@media (max-width:560px){
+  .videos{gap:10px}
+  .v-play{width:46px;height:46px}.v-play svg{width:16px;height:16px}
+  .v-card.destaque .v-play{width:66px;height:66px}
+  .v-info{padding:10px 12px}.v-num{font-size:1.2rem}
+  .v-card:not(.destaque) .v-tit{display:none}
+  .v-card .demo{font-size:.55rem;right:8px;top:8px;padding:3px 6px}
+  .v-card:not(.destaque) .demo{display:none}
+}
+
+/* ---------- Ambientes ---------- */
+.ambientes-lista{display:grid;gap:clamp(3.5rem,8vw,7rem)}
+.ambiente{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,7vw,6rem);align-items:center}
+.ambiente:nth-child(even) .ambiente-foto{order:2}
+.ambiente-foto{position:relative;min-width:0;margin:0;aspect-ratio:4/3;background:#1b1712;overflow:hidden}
+.ambiente-foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.ambiente:hover .ambiente-foto img{transform:scale(1.035)}
+.ambiente-foto::after{content:"";position:absolute;inset:12px;border:1px solid rgba(201,164,92,.48);pointer-events:none}
+.ambiente-foto.reserva{display:grid;place-items:center;background:linear-gradient(145deg,#191714,#29231b);border:1px solid rgba(201,164,92,.35);color:var(--cinza-claro)}
+.ambiente-foto.reserva::after{inset:14px;border-style:dashed}
+.ambiente-foto.reserva span{padding:24px;text-align:center;font-size:.72rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase}
+.ambiente-texto{display:grid;gap:18px;min-width:0}
+#ambientes .cabeca h2,.ambiente-texto h3{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
+.ambiente-texto h3{font-size:var(--t-h2)}
+.ambiente-texto p{max-width:56ch;color:var(--cinza-escuro)}
+.ambiente-detalhe{padding-top:14px;border-top:1px solid var(--linha-branco);font-size:.88rem;color:var(--cinza-escuro)}
+.ambiente-detalhe strong{font-weight:500;color:var(--preto)}
+.ambiente-nota{font-size:.82rem!important;font-style:italic}
+.ambientes-cta{display:grid;justify-items:center;gap:24px;margin-top:clamp(4rem,8vw,7rem);padding-top:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--linha-branco);text-align:center}
+.ambientes-cta p{max-width:66ch;color:var(--cinza-escuro)}
+@media (max-width:760px){
+  .ambiente{grid-template-columns:1fr;gap:26px}
+  .ambiente:nth-child(even) .ambiente-foto{order:0}
+  .ambiente-foto{aspect-ratio:16/10}
+}
+.ambiente-casa .ambiente-texto,.ambiente-casa .casa-galeria{grid-column:1/-1}
+.casa-galeria{columns:4;column-gap:14px}
+.casa-galeria figure{position:relative;break-inside:avoid;margin:0 0 14px;overflow:hidden;background:#1b1712}
+.casa-galeria figure::after{content:"";position:absolute;inset:8px;border:1px solid rgba(201,164,92,.48);pointer-events:none}
+.casa-galeria img{display:block;width:100%;height:auto}
+@media (max-width:760px){.casa-galeria{columns:2;column-gap:10px}.casa-galeria figure{margin-bottom:10px}.casa-galeria figure::after{inset:6px}}
+@media (prefers-reduced-motion:reduce){.ambiente-foto img{transition:none}}
+
+/* Player (abre o vídeo na própria página) */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(10,10,10,.96);display:grid;grid-template-rows:auto 1fr auto;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lb.on{opacity:1;visibility:visible}
+.lb-topo{display:flex;justify-content:space-between;align-items:center;padding:16px max(16px,env(safe-area-inset-left,0px)) 0;color:var(--cinza-claro);font-size:.75rem;letter-spacing:.24em;text-transform:uppercase}
+.lb-palco{position:relative;display:grid;place-items:center;padding:20px clamp(16px,7vw,96px);min-height:0}
+.lb-midia{position:relative;width:min(1180px,100%);aspect-ratio:16/9;max-height:76vh;border-radius:var(--raio);overflow:hidden;background:#000;box-shadow:0 0 0 1px rgba(201,164,92,.35);transform:scale(.96);opacity:0;transition:transform .6s var(--ease),opacity .5s}
+.lb.on .lb-midia{transform:none;opacity:1}
+.lb-midia video,.lb-midia canvas{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.lb-midia .barra{position:absolute;left:0;bottom:0;height:2px;background:var(--dourado);width:0}
+.lb-midia .demo{top:14px;right:14px}
+.lb-btn{width:48px;height:48px;border:1px solid rgba(201,164,92,.6);background:rgba(17,17,17,.6);color:var(--dourado);display:grid;place-items:center;cursor:pointer;transition:background .3s,color .3s;border-radius:50%}
+.lb-btn:hover{background:var(--dourado);color:var(--preto)}
+.lb-btn svg{width:20px;height:20px}
+.lb-ant,.lb-prox{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
+.lb-ant{left:max(16px,env(safe-area-inset-left,0px))}.lb-prox{right:max(16px,env(safe-area-inset-right,0px))}
+.lb-legenda{text-align:center;padding:0 16px 24px;font-family:var(--f-titulo);font-style:italic;font-size:1.2rem;color:var(--branco)}
+.lb-legenda small{display:block;font-family:var(--f-texto);font-style:normal;font-size:.78rem;color:var(--cinza-claro);margin-top:4px}
+@media (max-width:700px){.lb-ant,.lb-prox{top:auto;bottom:-4px;transform:none}.lb-palco{padding-bottom:72px}.lb-ant{left:calc(50% - 60px)}.lb-prox{right:calc(50% - 60px)}}
+
+/* ---------- 4. Tipos de celebração ---------- */
+.celebracoes{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--linha-branco);border-left:1px solid var(--linha-branco)}
+.cel{position:relative;display:grid;gap:14px;align-content:start;padding:clamp(30px,3.6vw,46px) clamp(24px,3vw,40px);border-right:1px solid var(--linha-branco);border-bottom:1px solid var(--linha-branco);text-decoration:none;color:var(--preto);background:var(--branco);isolation:isolate;overflow:hidden;transition:color .55s var(--ease)}
+.cel::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--preto);transform:scaleY(0);transform-origin:bottom;transition:transform .6s var(--ease)}
+.cel::after{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--dourado);transition:width .7s var(--ease)}
+.cel svg{width:40px;height:40px;color:var(--dourado);transition:transform .7s var(--ease)}
+.cel h3{font-size:var(--t-h3)}
+.cel p{color:var(--cinza-escuro);font-size:.97rem;line-height:1.65;transition:color .55s}
+.cel .ir{margin-top:8px;display:inline-flex;align-items:center;gap:10px;font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase}
+.cel .ir svg{width:16px;height:16px;transition:transform .5s var(--ease)}
+.cel:hover,.cel:focus-visible{color:var(--branco)}
+.cel:hover::before,.cel:focus-visible::before{transform:scaleY(1)}
+.cel:hover::after,.cel:focus-visible::after{width:100%}
+.cel:hover p,.cel:focus-visible p{color:var(--cinza-claro)}
+.cel:hover > svg{transform:translateY(-4px) rotate(-6deg)}
+.cel:hover .ir svg{transform:translateX(6px)}
+.cel:focus-visible{outline-offset:-6px}
+@media (max-width:900px){.celebracoes{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){
+  .celebracoes{grid-template-columns:1fr}
+  .cel{grid-template-columns:44px 1fr;column-gap:18px;row-gap:6px;padding:24px 18px}
+  .cel > svg{grid-row:span 3;width:36px;height:36px}
+  .cel .ir{margin-top:4px}
+}
+
+/* ---------- 5. Formulário de orçamento ---------- */
+.orc-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,7vw,6rem);align-items:start}
+.orc-txt{display:grid;gap:24px;min-width:0;position:sticky;top:110px}
+.orc-txt h2{font-size:var(--t-h2)}
+.orc-txt .fio{width:64px;height:1px;background:var(--dourado);transform-origin:left}
+.orc-txt p{color:var(--cinza-claro);max-width:46ch}
+.passos{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:14px;counter-reset:p}
+.passos li{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:center;font-size:.92rem;color:var(--cinza-claro);counter-increment:p}
+.passos li::before{content:counter(p);width:34px;height:34px;border:1px solid var(--dourado);border-radius:50%;display:grid;place-items:center;font-family:var(--f-titulo);font-size:1.05rem;color:var(--dourado)}
+.form{display:grid;gap:30px;min-width:0;padding:clamp(26px,4vw,48px);border:1px solid var(--linha-preto);border-radius:var(--raio);position:relative}
+.form::before{content:"";position:absolute;left:clamp(26px,4vw,48px);top:-1px;width:60px;height:1px;background:var(--dourado)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:28px 26px}
+.campo{display:grid;gap:8px;min-width:0;position:relative}
+.campo.cheio{grid-column:1 / -1}
+.campo label{font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--cinza-claro);transition:color .3s}
+.campo label i{font-style:normal;color:var(--dourado)}
+.campo input,.campo select,.campo textarea{width:100%;font:inherit;font-size:1rem;font-weight:300;color:var(--branco);background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.22);border-radius:0;padding:10px 0 12px;outline:none;transition:border-color .4s,box-shadow .4s;color-scheme:dark;-webkit-appearance:none;appearance:none}
+.campo input::placeholder,.campo textarea::placeholder{color:#77726A}
+.campo textarea{resize:vertical;min-height:110px;line-height:1.6}
+.campo select{cursor:pointer;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A45C' stroke-width='1.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;background-size:18px}
+.campo select:invalid{color:#77726A}
+.campo select option{background:var(--preto);color:var(--branco)}
+.campo input[type="date"]{min-height:47px}
+.campo input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(72%) sepia(35%) saturate(560%) hue-rotate(358deg);cursor:pointer;opacity:.9}
+.campo .linha{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--dourado);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.campo:focus-within .linha{transform:scaleX(1)}
+.campo:focus-within label{color:var(--dourado-claro)}
+.campo.cheio:has(textarea) .linha{bottom:7px}
+.campo .erro{font-size:.8rem;color:var(--erro);min-height:0;line-height:1.4}
+.campo .erro:empty{display:none}
+.campo.invalido input,.campo.invalido select,.campo.invalido textarea{border-bottom-color:var(--erro)}
+.campo.destacado select{animation:brilho 1.6s var(--ease)}
+@keyframes brilho{0%,100%{box-shadow:0 1px 0 0 rgba(201,164,92,0)}30%{box-shadow:0 1px 0 0 var(--dourado),0 10px 24px -14px rgba(201,164,92,.9)}}
+.form-rodape{display:flex;flex-wrap:wrap;align-items:center;gap:18px 26px}
+.form-rodape p{font-size:.85rem;color:var(--cinza-claro);max-width:34ch;line-height:1.55}
+.status{display:grid;grid-template-columns:40px 1fr;gap:16px;align-items:start;padding:20px;border:1px solid rgba(201,164,92,.55);border-radius:var(--raio);background:rgba(201,164,92,.06);animation:subir .6s var(--ease)}
+.status .ic{width:40px;height:40px;border-radius:50%;border:1px solid var(--dourado);display:grid;place-items:center;color:var(--dourado)}
+.status .ic svg{width:18px;height:18px}
+.status strong{display:block;font-family:var(--f-titulo);font-weight:600;font-size:1.3rem;margin-bottom:4px}
+.status p{font-size:.92rem;color:var(--cinza-claro)}
+.status a{color:var(--dourado-claro)}
+@media (max-width:900px){.orc-grid{grid-template-columns:1fr}.orc-txt{position:static}}
+@media (max-width:560px){.campos{grid-template-columns:1fr;gap:24px}.form-rodape .btn{width:100%}}
+
+/* ---------- 6. Contato ---------- */
+.contato-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(2.5rem,7vw,6rem);align-items:start}
+.contato-txt{display:grid;gap:24px;min-width:0}
+.contato-txt h2{font-size:var(--t-h2)}
+.contato-txt .fio{width:64px;height:1px;background:var(--dourado);transform-origin:left}
+.contato-txt p{color:var(--cinza-escuro);max-width:50ch}
+.contato-txt .acoes{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
+.dados{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha-branco)}
+.dados li{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;padding:26px 0;border-bottom:1px solid var(--linha-branco);min-width:0}
+.dados .ic{width:44px;height:44px;border:1px solid var(--dourado);border-radius:50%;display:grid;place-items:center;color:var(--dourado);transition:background .4s,color .4s}
+.dados li:hover .ic{background:var(--dourado);color:var(--branco)}
+.dados svg{width:19px;height:19px}
+.dados small{display:block;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.dados .valor{font-size:1.02rem;overflow-wrap:anywhere}
+.dados .vazio{color:var(--cinza-escuro);font-style:italic}
+.dados a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s}
+.dados a:hover{border-color:var(--dourado)}
+@media (max-width:860px){.contato-grid{grid-template-columns:1fr}}
+@media (max-width:420px){.contato-txt .acoes .btn{width:100%}}
+
+/* ---------- Rodapé ---------- */
+.rodape .wrap{padding-block:clamp(3.5rem,7vw,5rem) clamp(2rem,4vw,2.5rem);display:grid;gap:34px;justify-items:center;text-align:center}
+.rodape .marca-mini{font-size:clamp(1.3rem,3vw,1.7rem)}
+.rodape .marca-mini img{display:block;width:min(220px,70vw);height:auto}
+.rodape nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 30px}
+.rodape nav a{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--cinza-claro);transition:color .3s}
+.rodape nav a:hover{color:var(--dourado)}
+.sociais{display:flex;gap:14px}
+.sociais a{width:42px;height:42px;border:1px solid rgba(201,164,92,.6);border-radius:50%;display:grid;place-items:center;color:var(--dourado);transition:background .4s,color .4s}
+.sociais a:hover{background:var(--dourado);color:var(--preto)}
+.sociais svg{width:18px;height:18px}
+.rodape .copy{width:100%;padding-top:26px;border-top:1px solid var(--linha-preto);font-size:.78rem;color:#8B867D;letter-spacing:.06em}
+
+/* ---------- Animações ao rolar (repetem ao descer e ao subir) ---------- */
+.anima .rv{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1.1s var(--ease);transition-delay:var(--d,0s)}
+.anima .rv.esq{transform:translateX(-40px)}
+.anima .rv.dir{transform:translateX(40px)}
+.anima .rv.zoom{transform:scale(.94)}
+.anima .rv.in{opacity:1;transform:none}
+.anima .fio.rv{opacity:1;transform:scaleX(0)}
+.anima .fio.rv.in{transform:scaleX(1)}
+.anima .marca .l{opacity:0;transform:translateY(.35em);filter:blur(6px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s;transition-delay:calc(var(--i)*55ms)}
+.anima .marca.in .l{opacity:1;transform:none;filter:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .anima .rv,.anima .marca .l{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  .foto img,.v-capa{transition:opacity .3s!important}
+  .hero-foto .foto img{transform:none!important}
+}
+</style>
+</head>
+<body>
+<!-- =====================================================================
+  COMO TROCAR FOTOS E VÍDEOS
+  No final deste arquivo (procure por "const FOTOS" e "const VIDEOS"):
+   • FOTOS: as 2 fotos do site (hero e sobre). Ex.: hero: "imagens/salao.jpg",
+   • VIDEOS: os 10 vídeos da estrutura. Para cada um, preencha
+       arquivo: "videos/salao.mp4"  (obrigatório para tocar o vídeo real)
+       capa:    "videos/salao.jpg"  (opcional; sem capa, o site usa o 1º quadro do vídeo)
+       titulo:  "Salão principal"   (opcional)
+  Enquanto um campo estiver vazio (""), o site mostra a versão demonstrativa.
+  Os vídeos só são carregados quando o visitante aperta o play.
+====================================================================== -->
+
+<header class="topo" id="topo">
+  <div class="topo-in">
+    <a class="marca-mini" href="#inicio" aria-label="Celebre Lavie, voltar ao início"><img src="imagens/logo-horizontal-fundo-escuro.svg" alt="Celebre LaVie"></a>
+    <nav aria-label="Menu principal">
+      <ul class="menu" id="menu">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#estrutura">Estrutura</a></li>
+        <li><a href="#celebracoes">Celebrações</a></li>
+        <li><a href="#orcamento">Orçamento</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+    <button class="burguer" id="burguer" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<!-- 1. APRESENTAÇÃO (preto) — foto 1 de 2 -->
+<section class="faixa preta hero" id="inicio">
+  <div class="wrap">
+    <span class="rotulo rv">Casa de festas e eventos</span>
+    <h1 class="marca" id="marca" aria-label="Celebre Lavie">CELEBRE LAVIE</h1>
+    <div class="fio-hero rv" style="--d:.5s"></div>
+    <p class="frase rv" style="--d:.6s">Momentos especiais merecem cenários inesquecíveis.</p>
+    <p class="intro rv" style="--d:.75s">Um espaço pensado para receber celebrações com elegância, conforto e atenção a cada detalhe. Aqui, cada encontro ganha o cenário que merece.</p>
+    <div class="acoes rv" style="--d:.9s">
+      <a class="btn btn-ouro" href="#estrutura">Conheça nosso espaço</a>
+      <a class="btn btn-linha" href="#orcamento">Fale conosco</a>
+    </div>
+    <div class="hero-foto rv zoom" style="--d:.3s">
+      <figure class="foto" id="heroFoto" data-foto="hero" data-alt="Estrutura da Celebre Lavie"></figure>
+    </div>
+  </div>
+  <div class="hero-base"></div>
+</section>
+
+<!-- 2. SOBRE NÓS (branco) — foto 2 de 2 -->
+<section class="faixa branca" id="sobre">
+  <div class="wrap">
+    <div class="sobre-grid">
+      <div class="sobre-foto rv esq">
+        <figure class="foto" data-foto="sobre" data-alt="Ambiente da Celebre Lavie"></figure>
+      </div>
+      <div class="sobre-texto">
+        <span class="rotulo rv">Sobre nós</span>
+        <h2 class="rv" style="--d:.1s">Um espaço para celebrar a vida</h2>
+        <div class="fio rv" style="--d:.2s"></div>
+        <p class="rv" style="--d:.25s">A Celebre Lavie é um ambiente preparado para receber celebrações especiais. Um lugar à altura das datas que marcam a vida, onde estrutura, estética e cuidado com cada convidado caminham juntos.</p>
+        <p class="rv" style="--d:.35s">Do primeiro contato ao último brinde, nosso propósito é que você viva o seu evento com tranquilidade e guarde dele as melhores lembranças.</p>
+        <div class="pilares rv" style="--d:.45s">
+          <div class="pilar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 3l2.6 5.6L20.5 9l-4.4 4.1 1.1 6L12 16.3 6.8 19.1l1.1-6L3.5 9l5.9-.4z"/></svg>
+            <span>Elegância</span>
+          </div>
+          <div class="pilar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+            <span>Acolhimento</span>
+          </div>
+          <div class="pilar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+            <span>Cuidado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. NOSSA ESTRUTURA EM VÍDEOS (preto) -->
+<section class="faixa preta" id="estrutura">
+  <div class="wrap">
+    <div class="cabeca centro">
+      <span class="rotulo rv">Nossa estrutura</span>
+      <h2 class="rv" style="--d:.1s">Conheça nossa estrutura</h2>
+      <div class="fio rv" style="--d:.2s"></div>
+      <p class="apoio rv" style="--d:.25s">Assista aos vídeos e percorra cada ambiente da Celebre Lavie.</p>
+    </div>
+    <div class="videos" id="videos"></div>
+    <p class="videos-nota rv">Toque em um vídeo para assistir aqui mesmo, em tamanho ampliado.</p>
+  </div>
+</section>
+
+<!-- 4. CONHEÇA NOSSOS AMBIENTES (branco) -->
+<section class="faixa branca" id="ambientes">
+  <div class="wrap">
+    <div class="cabeca centro">
+      <span class="rotulo rv">Conheça nossos ambientes</span>
+      <h2 class="rv" style="--d:.1s">Espaços pensados para celebrar</h2>
+      <div class="fio rv" style="--d:.2s"></div>
+    </div>
+    <div class="ambientes-lista">
+      <article class="ambiente">
+        <figure class="ambiente-foto rv esq">
+          <img src="imagens/cerimônia.jpg" alt="Ambiente da Celebre LaVie preparado para uma celebração" loading="lazy">
+        </figure>
+        <div class="ambiente-texto">
+          <span class="rotulo rv">O espaço</span>
+          <h3 class="rv" style="--d:.1s">Um cenário para diferentes celebrações</h3>
+          <p class="rv" style="--d:.2s">O Celebre LaVie oferece ambientes que permitem diferentes possibilidades de celebrações, desde casamentos e aniversários até confraternizações e eventos corporativos. Cada evento é planejado considerando suas particularidades e a disposição dos ambientes.</p>
+          <p class="ambiente-detalhe rv" style="--d:.3s"><strong>Metragem total:</strong> a informar.</p>
+          <p class="ambiente-detalhe rv" style="--d:.4s">A capacidade de convidados varia conforme o tipo de evento e o layout escolhido, sendo definida em atendimento personalizado.</p>
+        </div>
+      </article>
+
+      <article class="ambiente ambiente-casa">
+        <div class="ambiente-texto">
+          <span class="rotulo rv">A casa</span>
+          <h3 class="rv" style="--d:.1s">A Casa: momentos que antecedem a celebração</h3>
+          <p class="rv" style="--d:.2s">Localizada no centro do espaço, a casa do Celebre LaVie proporciona um ambiente reservado para momentos especiais. Disponível mediante contratação específica, pode ser utilizada para ensaios fotográficos pré-wedding e para o Dia da Noiva, oferecendo acesso à suíte principal durante a preparação para a cerimônia.</p>
+          <p class="ambiente-detalhe ambiente-nota rv" style="--d:.3s">A alimentação não está inclusa na contratação da casa.</p>
+        </div>
+        <div class="casa-galeria rv" role="group" aria-label="Fotografias da casa Celebre LaVie">
+          <figure><img src="imagens/casa-tratada/sala-estar-janelas.jpg" alt="Sala de estar da casa com janelas amplas e porta envidraçada" width="1280" height="960" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/porta-envidracada.jpg" alt="Porta envidraçada com cortinas na casa Celebre LaVie" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/janela-cortinas.jpg" alt="Janela com cortinas leves e vista para a área externa" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/sala-estar-visao-superior.jpg" alt="Vista da sala de estar com teto de madeira e mobiliário" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/sala-estar-parede-de-pedra.jpg" alt="Sala de estar com parede de pedra e iluminação acolhedora" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/sala-estar-poltronas.jpg" alt="Poltronas e mesa de apoio na sala da casa" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/sala-estar-pedra-lateral.jpg" alt="Detalhe da parede de pedra e da circulação da sala" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/suite-cama.jpg" alt="Suíte da casa com cama e teto de madeira" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/suite-varanda.jpg" alt="Vista da varanda a partir da suíte" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/detalhe-janela.jpg" alt="Detalhe da janela e das cortinas da suíte" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/suite-penteadeira.jpg" alt="Penteadeira de madeira na suíte da casa" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/fachada-varanda.jpg" alt="Fachada da casa com varanda e jardim" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/fachada-flores.jpg" alt="Detalhe da fachada com flores e telhado de cerâmica" width="960" height="1280" loading="lazy" decoding="async"></figure>
+          <figure><img src="imagens/casa-tratada/fachada-frontal.jpg" alt="Vista ampla da fachada da casa Celebre LaVie e do jardim" width="1280" height="960" loading="lazy" decoding="async"></figure>
+        </div>
+      </article>
+
+      <article class="ambiente">
+        <figure class="ambiente-foto rv esq">
+          <img src="imagens/decoração.jpg" alt="Detalhes de um ambiente decorado da Celebre LaVie" loading="lazy">
+        </figure>
+        <div class="ambiente-texto">
+          <span class="rotulo rv">Área externa</span>
+          <h3 class="rv" style="--d:.1s">Estrutura e conforto para o seu evento</h3>
+          <p class="rv" style="--d:.2s">A área externa conta com banheiros destinados aos convidados e dois quartos climatizados para apoio ao cerimonial e aos noivos, especialmente quando não há contratação da casa.</p>
+          <p class="ambiente-detalhe rv" style="--d:.3s">O espaço também conta com estrutura de apoio de cozinha para suporte à dinâmica dos eventos.</p>
+        </div>
+      </article>
+    </div>
+    <div class="ambientes-cta">
+      <p class="rv">Cada celebração é única. Nossa equipe está à disposição para apresentar os ambientes e orientar sobre as possibilidades de utilização de acordo com o seu evento.</p>
+      <a class="btn btn-ouro rv" href="#contato">Agende uma visita</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. TIPOS DE CELEBRAÇÃO (branco) -->
+<section class="faixa branca" id="celebracoes">
+  <div class="wrap">
+    <div class="cabeca centro">
+      <span class="rotulo rv">Celebrações</span>
+      <h2 class="rv" style="--d:.1s">Cada momento merece uma celebração inesquecível.</h2>
+      <div class="fio rv" style="--d:.2s"></div>
+      <p class="apoio rv" style="--d:.25s">Escolha sua ocasião especial e comece a planejar conosco.</p>
+    </div>
+    <div class="celebracoes" id="celebracoesGrid"></div>
+  </div>
+</section>
+
+<!-- 5. FORMULÁRIO DE ORÇAMENTO (preto) -->
+<section class="faixa preta" id="orcamento">
+  <div class="wrap">
+    <div class="orc-grid">
+      <div class="orc-txt">
+        <span class="rotulo rv">Orçamento</span>
+        <h2 class="rv" style="--d:.1s">Sua próxima celebração começa aqui.</h2>
+        <div class="fio rv" style="--d:.2s"></div>
+        <p class="rv" style="--d:.25s">Preencha as informações abaixo e nossa equipe entrará em contato para ajudar a planejar seu evento.</p>
+        <ol class="passos rv" style="--d:.35s">
+          <li>Preencha os dados da sua celebração</li>
+          <li>Toque em “Solicitar meu orçamento”</li>
+          <li>Confirme o envio da mensagem no WhatsApp</li>
+        </ol>
+      </div>
+
+      <form class="form rv dir" id="form" novalidate>
+        <div class="campos">
+          <div class="campo cheio">
+            <label for="f-nome">Nome completo <i>*</i></label>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required>
+            <span class="linha"></span><span class="erro" id="e-nome"></span>
+          </div>
+          <div class="campo">
+            <label for="f-tel">Telefone / WhatsApp <i>*</i></label>
+            <input id="f-tel" name="telefone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(DDD) 99999-9999" maxlength="15" required>
+            <span class="linha"></span><span class="erro" id="e-tel"></span>
+          </div>
+          <div class="campo" id="campoTipo">
+            <label for="f-tipo">Tipo de evento <i>*</i></label>
+            <select id="f-tipo" name="tipo" required>
+              <option value="" disabled selected>Selecione a ocasião</option>
+            </select>
+            <span class="linha"></span><span class="erro" id="e-tipo"></span>
+          </div>
+          <div class="campo">
+            <label for="f-data">Data prevista do evento <i>*</i></label>
+            <input id="f-data" name="data" type="date" required>
+            <span class="linha"></span><span class="erro" id="e-data"></span>
+          </div>
+          <div class="campo">
+            <label for="f-conv">Quantidade de convidados <i>*</i></label>
+            <input id="f-conv" name="convidados" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="5" placeholder="Número de convidados" required>
+            <span class="linha"></span><span class="erro" id="e-conv"></span>
+          </div>
+          <div class="campo cheio">
+            <label for="f-msg">Mensagem adicional</label>
+            <textarea id="f-msg" name="mensagem" rows="4" placeholder="Conte um pouco mais sobre a celebração que você está planejando…"></textarea>
+            <span class="linha"></span>
+          </div>
+        </div>
+        <div class="form-rodape">
+          <button class="btn btn-ouro" type="submit">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2A9.7 9.7 0 0 0 3.7 16.9L2.4 21.6l4.8-1.3A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.8-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.2-.2-.2-.5-.3z"/></svg>
+            Solicitar meu orçamento
+          </button>
+          <p>O WhatsApp abre com a mensagem pronta. Basta confirmar o envio.</p>
+        </div>
+        <div class="status" id="status" hidden role="status">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <div><strong>Mensagem pronta no WhatsApp</strong><p>Confirme o envio na conversa com a Celebre Lavie. Se o WhatsApp não abriu, <a id="linkStatus" href="https://wa.me/5583988021250" target="_blank" rel="noopener">toque aqui para abrir</a>.</p></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CONTATO (branco) -->
+<section class="faixa branca" id="contato">
+  <div class="wrap">
+    <div class="contato-grid">
+      <div class="contato-txt">
+        <span class="rotulo rv">Contato</span>
+        <h2 class="rv" style="--d:.1s">Fale com a Celebre Lavie</h2>
+        <div class="fio rv" style="--d:.2s"></div>
+        <p class="rv" style="--d:.25s">Venha conhecer de perto a nossa estrutura. Chame a nossa equipe pelo WhatsApp ou acompanhe a Celebre Lavie no Instagram.</p>
+        <div class="acoes rv" style="--d:.35s">
+          <a class="btn btn-ouro" id="btnWhats" href="https://wa.me/5583988021250" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2A9.7 9.7 0 0 0 3.7 16.9L2.4 21.6l4.8-1.3A9.7 9.7 0 1 0 12 2.2zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.8-.2-.3A8 8 0 1 1 12 19.9zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.2-.2-.2-.5-.3z"/></svg>
+            WhatsApp
+          </a>
+          <a class="btn btn-linha" id="btnInsta" href="https://www.instagram.com/celebre.lavie/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+      <ul class="dados" id="dados"></ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- RODAPÉ (preto) -->
+<footer class="faixa preta rodape">
+  <div class="wrap">
+    <a class="marca-mini" href="#inicio" aria-label="Celebre Lavie, voltar ao início"><img src="imagens/logo-horizontal-dourada.svg" alt="Celebre LaVie"></a>
+    <nav aria-label="Rodapé">
+      <a href="#sobre">Sobre</a><a href="#estrutura">Estrutura</a><a href="#celebracoes">Celebrações</a><a href="#orcamento">Orçamento</a><a href="#contato">Contato</a>
+    </nav>
+    <div class="sociais">
+      <a href="https://wa.me/5583988021250" target="_blank" rel="noopener" aria-label="WhatsApp da Celebre Lavie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20l1.3-4A8.5 8.5 0 1 1 8.2 19z"/></svg></a>
+      <a href="https://www.instagram.com/celebre.lavie/" target="_blank" rel="noopener" aria-label="Instagram da Celebre Lavie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg></a>
+    </div>
+    <p class="copy">© <span id="ano">2026</span> Celebre Lavie. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- Player de vídeo -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Vídeo da estrutura" hidden>
+  <div class="lb-topo"><span id="lbCont">1 / 10</span>
+    <button class="lb-btn" id="lbFechar" aria-label="Fechar vídeo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="lb-palco">
+    <div class="lb-midia" id="lbMidia"></div>
+    <button class="lb-btn lb-ant" id="lbAnt" aria-label="Vídeo anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 4l-8 8 8 8"/></svg></button>
+    <button class="lb-btn lb-prox" id="lbProx" aria-label="Próximo vídeo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 4l8 8-8 8"/></svg></button>
+  </div>
+  <p class="lb-legenda" id="lbLeg"></p>
+</div>
+
+<script>
+/* =====================================================================
+   FOTOS — as 2 fotografias do site. Deixe "" para manter a demonstrativa.
+===================================================================== */
+const FOTOS = {
+  hero: "imagens/cerimônia.jpg",     // foto grande da apresentação (horizontal)
+  sobre: "imagens/decoração.jpg"     // foto da seção Sobre nós (vertical)
+};
+
+/* =====================================================================
+   VIDEOS — os 10 vídeos da estrutura (MP4 recomendado).
+   arquivo: caminho do vídeo | capa: imagem de capa (opcional) | titulo: opcional
+===================================================================== */
+const VIDEOS = [
+  { arquivo: "videos/video-01.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-02.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-03.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-04.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-05.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-06.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-07.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-08.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-09.mp4", capa: "", titulo: "" },
+  { arquivo: "videos/video-10.mp4", capa: "", titulo: "" }
+];
+
+/* CONTATO — dados oficiais. Campos vazios aparecem como "A inserir". */
+const CONTATO = {
+  whatsapp: "5583988021250",
+  telefone: "(83) 98802-1250",
+  instagram: "celebre.lavie",
+  endereco: "",
+  email: ""
+};
+
+/* Tipos de celebração (cards + opções do formulário) */
+const CELEBRACOES = [
+  { nome:"Aniversários", texto:"Mais um ano de vida celebrado ao lado de quem faz parte dela.",
+    icone:'<path d="M6 27h20M8 27V17h16v10M10 17v-4h12v4"/><path d="M16 13V9"/><path d="M16 5.5c1 1.2 1 2.3 0 3-1-.7-1-1.8 0-3z"/><path d="M8 21c2.7 1.6 5.3 1.6 8 0s5.3-1.6 8 0"/>' },
+  { nome:"Casamentos", texto:"Para o dia do sim, um cenário à altura da história de vocês.",
+    icone:'<circle cx="12" cy="19" r="7"/><circle cx="20" cy="19" r="7"/><path d="M13 6l3-3 3 3-3 3z"/>' },
+  { nome:"Formaturas", texto:"A conquista de anos de dedicação merece uma noite memorável.",
+    icone:'<path d="M3 12l13-6 13 6-13 6z"/><path d="M8 14.5V21c2.5 2.5 13.5 2.5 16 0v-6.5"/><path d="M27 13v7"/>' },
+  { nome:"Festas de 15 anos", texto:"Uma noite especial para marcar a chegada de uma nova fase.",
+    icone:'<path d="M5 22l2-11 5.5 5L16 7l3.5 9L25 11l2 11z"/><path d="M5 26h22"/><circle cx="16" cy="5" r="1.2"/><circle cx="7" cy="9.5" r="1"/><circle cx="25" cy="9.5" r="1"/>' },
+  { nome:"Eventos corporativos", texto:"Confraternizações e encontros profissionais em um ambiente sofisticado.",
+    icone:'<rect x="4" y="10" width="24" height="16"/><path d="M12 10V7h8v3"/><path d="M4 17h24"/><path d="M15 17v2h2v-2"/>' },
+  { nome:"Outras celebrações", texto:"Tem outra ocasião em mente? Conte para nós o que você quer celebrar.",
+    icone:'<path d="M9 4h5l-.6 7a2.5 2.5 0 0 1-3.8 0z"/><path d="M11.5 12.5V22M8.5 22h6"/><path d="M18 6h5l-.6 7a2.5 2.5 0 0 1-3.8 0z"/><path d="M20.5 14.5V24M17.5 24h6"/><path d="M15.5 3l1-1.5M16.5 6l1.8-.4M13 2l-.3-1.6"/>' }
+];
+
+/* ---------- Imagens demonstrativas (desenhadas no navegador) ---------- */
+const CENAS = { hero:["salao",11], sobre:["mesa",4] };
+const CENAS_VIDEO = [["salao",23],["flores",8],["luzes",5],["palco",3],["mesa",12],["salao",41],["formatura",14],["luzes",29],["corporativo",2],["flores",55]];
+
+function rnd(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+function pintar(tipo, W, H, seed){
+  const c=document.createElement("canvas");c.width=W;c.height=H;
+  const x=c.getContext("2d"), r=rnd(seed*977+13), u=Math.min(W,H)/800;
+  const pal={
+    salao:["#0a0806","#2c1f12","255,214,150"], mesa:["#0d0907","#34241a","255,205,140"],
+    luzes:["#06070a","#1d1812","255,222,160"], flores:["#140f0d","#352722","255,226,190"],
+    palco:["#050506","#17130e","255,230,180"], formatura:["#050507","#141019","255,220,150"],
+    corporativo:["#07080a","#18171a","235,225,205"]
+  }[tipo];
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,pal[0]);g.addColorStop(1,pal[1]);x.fillStyle=g;x.fillRect(0,0,W,H);
+  const cor=a=>`rgba(${pal[2]},${a})`;
+  const brilho=(cx,cy,rad,a)=>{const rg=x.createRadialGradient(cx,cy,0,cx,cy,rad);rg.addColorStop(0,cor(a));rg.addColorStop(1,cor(0));x.fillStyle=rg;x.beginPath();x.arc(cx,cy,rad,0,7);x.fill();};
+  const bokeh=(n,min,max,amin,amax,ymin,ymax)=>{for(let i=0;i<n;i++){const cx=r()*W,cy=H*(ymin+r()*(ymax-ymin)),rad=(min+r()*(max-min))*u,a=amin+r()*(amax-amin);x.fillStyle=cor(a);x.beginPath();x.arc(cx,cy,rad,0,7);x.fill();x.strokeStyle=cor(a*1.4);x.lineWidth=1;x.stroke();}};
+  const horiz=H*(tipo==="mesa"?.55:.48);
+
+  if(tipo!=="luzes"){const fg=x.createLinearGradient(0,horiz,0,H);fg.addColorStop(0,"rgba(255,235,200,0.05)");fg.addColorStop(1,"rgba(255,220,170,0.13)");x.fillStyle=fg;x.fillRect(0,horiz,W,H-horiz);}
+
+  if(tipo==="salao"){
+    const n=3+Math.floor(r()*3);
+    for(let i=0;i<n;i++){const cx=W*(i+.5)/n+(r()-.5)*W*.05,cy=H*(.13+r()*.08);brilho(cx,cy,W*.16,.22);brilho(cx,cy,W*.04,.55);
+      for(let k=0;k<46;k++){const ang=r()*Math.PI*2,rr=r();x.fillStyle=cor(.5+r()*.5);x.beginPath();x.arc(cx+Math.cos(ang)*rr*W*.035,cy+Math.sin(ang)*rr*W*.022+rr*W*.01,(1+r()*1.6)*u,0,7);x.fill();}
+      x.strokeStyle=cor(.25);x.lineWidth=1;x.beginPath();x.moveTo(cx,0);x.lineTo(cx,cy-W*.02);x.stroke();}
+    bokeh(70,2,16,.03,.16,.05,.5);
+    for(let row=0;row<5;row++){const d=row/4,y=horiz+(H-horiz)*Math.pow(d,1.25)*.9+H*.03,s=.28+d*.9,cols=Math.round(7-d*3.2);
+      for(let k=0;k<cols;k++){const cx=W*(k+.5)/cols+(row%2?W/cols/2:0)-W*.25/cols, rw=W*.06*s*1.6, rh=rw*.32;
+        brilho(cx,y-rh*1.6,rw*1.4,.08);
+        const tg=x.createLinearGradient(0,y-rh,0,y+rh*2.4);tg.addColorStop(0,"rgba(250,244,234,0.92)");tg.addColorStop(1,"rgba(150,138,120,0.55)");
+        x.fillStyle=tg;x.beginPath();x.ellipse(cx,y,rw,rh,0,0,7);x.fill();x.fillRect(cx-rw,y,rw*2,rh*2.2);x.beginPath();x.ellipse(cx,y+rh*2.2,rw,rh*.5,0,0,Math.PI);x.fill();
+        for(let f=0;f<6;f++){x.fillStyle=`rgba(${230+r()*25|0},${200+r()*40|0},${185+r()*45|0},0.85)`;x.beginPath();x.arc(cx+(r()-.5)*rw*.5,y-rh*(1.2+r()*1.4),rw*.12*(.6+r()*.6),0,7);x.fill();}
+        brilho(cx-rw*.4,y-rh*.5,rw*.25,.6);brilho(cx+rw*.4,y-rh*.4,rw*.25,.6);
+      }}
+  }
+  if(tipo==="mesa"){
+    bokeh(90,6,46,.04,.2,0,.6);
+    for(let i=0;i<5;i++)brilho(W*r(),H*(.1+r()*.3),W*.12,.18);
+    const ty=H*.66,tg=x.createLinearGradient(0,ty-H*.12,0,H);tg.addColorStop(0,"rgba(246,238,226,0.95)");tg.addColorStop(1,"rgba(120,108,92,0.7)");
+    x.fillStyle=tg;x.beginPath();x.ellipse(W*.5,ty+H*.15,W*.75,H*.3,0,Math.PI,0);x.fill();x.fillRect(0,ty+H*.15,W,H);
+    for(let p=0;p<4;p++){const px=W*(.14+p*.24),py=ty+H*(.06+(p%2)*.07);x.fillStyle="rgba(255,252,246,0.95)";x.beginPath();x.ellipse(px,py,W*.085,H*.035,0,0,7);x.fill();x.strokeStyle="rgba(201,164,92,0.9)";x.lineWidth=2*u;x.beginPath();x.ellipse(px,py,W*.07,H*.027,0,0,7);x.stroke();
+      const gx=px+W*.07,gy=py-H*.03;x.strokeStyle="rgba(255,255,255,0.55)";x.lineWidth=1.5*u;x.beginPath();x.moveTo(gx-W*.014,gy-H*.12);x.quadraticCurveTo(gx-W*.014,gy-H*.06,gx,gy-H*.055);x.quadraticCurveTo(gx+W*.014,gy-H*.06,gx+W*.014,gy-H*.12);x.moveTo(gx,gy-H*.055);x.lineTo(gx,gy);x.moveTo(gx-W*.01,gy);x.lineTo(gx+W*.01,gy);x.stroke();brilho(gx+W*.006,gy-H*.1,W*.012,.6);}
+    for(let v=0;v<3;v++){const vx=W*(.3+v*.2),vy=ty-H*.02;x.fillStyle="rgba(250,245,232,0.9)";x.fillRect(vx-4*u,vy-H*.14,8*u,H*.14);brilho(vx,vy-H*.155,W*.05,.5);brilho(vx,vy-H*.155,W*.008,1);}
+    for(let f=0;f<40;f++){x.fillStyle=`rgba(${235+r()*20|0},${205+r()*35|0},${190+r()*40|0},${.5+r()*.45})`;x.beginPath();x.arc(W*(.5+(r()-.5)*.34),ty-H*(.02+r()*.12),W*(.012+r()*.022),0,7);x.fill();}
+  }
+  if(tipo==="luzes"||tipo==="flores"){
+    const linhas=tipo==="luzes"?6:3;
+    for(let l=0;l<linhas;l++){const y0=H*(.05+r()*.35),y1=H*(.05+r()*.35),sag=H*(.08+r()*.14),x0=-W*.05,x1=W*1.05,nb=34;
+      x.strokeStyle=cor(.12);x.lineWidth=1;x.beginPath();
+      for(let b=0;b<=nb;b++){const t=b/nb,px=x0+(x1-x0)*t,py=y0+(y1-y0)*t+sag*4*t*(1-t);b?x.lineTo(px,py):x.moveTo(px,py);}x.stroke();
+      for(let b=0;b<=nb;b++){const t=b/nb,px=x0+(x1-x0)*t,py=y0+(y1-y0)*t+sag*4*t*(1-t);brilho(px,py+4*u,14*u,.35);brilho(px,py+4*u,3*u,1);}}
+    bokeh(tipo==="luzes"?120:60,4,40,.03,.18,0,.9);
+    if(tipo==="luzes"){for(let i=0;i<9;i++){const cx=W*r(),cy=H*(.62+r()*.25);brilho(cx,cy,W*.05,.25);}
+      x.fillStyle="rgba(0,0,0,0.35)";for(let i=0;i<14;i++){const cx=W*r(),ch=H*(.18+r()*.14);x.beginPath();x.ellipse(cx,H-ch*.4,W*.025,ch*.55,0,0,7);x.fill();x.beginPath();x.arc(cx,H-ch*.95,W*.016,0,7);x.fill();}}
+  }
+  if(tipo==="flores"){
+    const cx=W*.5,cy=H*.78,R=Math.min(W*.42,H*.62);
+    x.strokeStyle="rgba(201,164,92,0.55)";x.lineWidth=2*u;x.beginPath();x.arc(cx,cy,R,Math.PI,0);x.stroke();
+    for(let i=0;i<260;i++){const a=Math.PI+r()*Math.PI,rr=R+(r()-.5)*R*.16,px=cx+Math.cos(a)*rr,py=cy+Math.sin(a)*rr;const dens=Math.abs(Math.cos(a));if(r()>dens*.9+.25)continue;
+      const tone=r();x.fillStyle=tone<.45?`rgba(250,244,238,${.7+r()*.3})`:tone<.8?`rgba(236,${190+r()*25|0},${180+r()*20|0},${.6+r()*.35})`:`rgba(150,${160+r()*30|0},120,0.55)`;x.beginPath();x.arc(px,py,(8+r()*20)*u,0,7);x.fill();}
+    for(let v=0;v<7;v++){const vx=W*(.2+v*.1),vy=H*(.84+r()*.06);x.fillStyle="rgba(248,242,230,0.85)";x.fillRect(vx-4*u,vy-H*.08,8*u,H*.08);brilho(vx,vy-H*.09,W*.04,.45);brilho(vx,vy-H*.09,5*u,1);}
+  }
+  if(tipo==="palco"||tipo==="formatura"||tipo==="corporativo"){
+    const sy=H*.58;
+    if(tipo==="corporativo"){const sw=W*.46,sh=H*.3;const sg=x.createLinearGradient(0,H*.14,0,H*.14+sh);sg.addColorStop(0,"rgba(240,232,215,0.55)");sg.addColorStop(1,"rgba(201,164,92,0.25)");x.fillStyle=sg;x.fillRect(W*.5-sw/2,H*.14,sw,sh);brilho(W*.5,H*.29,W*.4,.15);}
+    const nf=tipo==="corporativo"?3:6;
+    for(let i=0;i<nf;i++){const ox=W*(i+.5)/nf,tx=W*(.15+r()*.7),fg=x.createLinearGradient(ox,0,tx,sy);fg.addColorStop(0,cor(.35));fg.addColorStop(1,cor(0));x.fillStyle=fg;x.beginPath();x.moveTo(ox-6*u,0);x.lineTo(ox+6*u,0);x.lineTo(tx+W*.09,sy+H*.1);x.lineTo(tx-W*.09,sy+H*.1);x.closePath();x.fill();brilho(ox,0,W*.04,.7);}
+    for(let i=0;i<6;i++)brilho(W*r(),sy+H*(r()*.15),W*.3,.07);
+    x.fillStyle="rgba(201,164,92,0.6)";x.fillRect(0,sy+H*.1,W,1.5*u);
+    if(tipo==="corporativo"||tipo==="palco"){
+      for(let row=0;row<4;row++){const d=(row+1)/4,y=sy+H*.14+(H-sy-H*.14)*d*.9,s=.4+d*.8,n=Math.round(14-d*5);
+        for(let k=0;k<n;k++){const px=W*(k+.5)/n;x.fillStyle=`rgba(${tipo==="palco"?"248,242,232":"30,28,26"},${tipo==="palco"?.75:.95})`;x.beginPath();x.roundRect?x.roundRect(px-W*.018*s,y-H*.05*s,W*.036*s,H*.07*s,4*u):x.rect(px-W*.018*s,y-H*.05*s,W*.036*s,H*.07*s);x.fill();
+          if(tipo==="palco"){x.fillStyle="rgba(201,164,92,0.7)";x.fillRect(px-W*.018*s,y-H*.02*s,W*.036*s,2*u);}}}
+    }
+    if(tipo==="formatura"){
+      for(let i=0;i<180;i++){x.save();x.translate(W*r(),H*r()*.9);x.rotate(r()*3);x.fillStyle=`rgba(${215+r()*35|0},${170+r()*40|0},${90+r()*40|0},${.35+r()*.6})`;x.fillRect(0,0,(3+r()*7)*u,(2+r()*3)*u);x.restore();}
+      for(let i=0;i<5;i++){const cx=W*(.15+r()*.7),cy=H*(.12+r()*.3),s=(26+r()*20)*u;x.save();x.translate(cx,cy);x.rotate((r()-.5)*.8);x.fillStyle="rgba(10,10,12,0.92)";x.beginPath();x.moveTo(-s,0);x.lineTo(0,-s*.45);x.lineTo(s,0);x.lineTo(0,s*.45);x.closePath();x.fill();x.strokeStyle="rgba(201,164,92,0.85)";x.lineWidth=1.5*u;x.stroke();x.beginPath();x.moveTo(0,0);x.lineTo(s*.7,s*.5);x.stroke();x.restore();}
+      bokeh(50,3,20,.04,.16,.55,1);
+    }
+  }
+  const vg=x.createRadialGradient(W/2,H/2,Math.min(W,H)*.35,W/2,H/2,Math.max(W,H)*.75);vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,0.6)");x.fillStyle=vg;x.fillRect(0,0,W,H);
+  for(let i=0;i<W*H/260;i++){x.fillStyle=r()<.5?"rgba(255,255,255,0.035)":"rgba(0,0,0,0.05)";x.fillRect(r()*W,r()*H,1.4,1.4);}
+  return c.toDataURL("image/jpeg",.86);
+}
+
+/* ---------- As 2 fotos ---------- */
+const TAM={hero:[1680,720],sobre:[960,1200]};
+document.querySelectorAll("[data-foto]").forEach(fig=>{
+  const k=fig.dataset.foto,img=new Image();img.alt=fig.dataset.alt||"";img.decoding="async";img.onload=()=>img.classList.add("ok");
+  if(FOTOS[k]){img.src=FOTOS[k];fig.classList.add("tem-real");}
+  else{img.src=pintar(CENAS[k][0],TAM[k][0],TAM[k][1],CENAS[k][1]);const t=document.createElement("span");t.className="demo";t.textContent="Imagem demonstrativa";fig.appendChild(t);}
+  fig.prepend(img);
+});
+
+/* ---------- Galeria de vídeos ---------- */
+const gradeV=document.getElementById("videos");
+const capasDemo=[];
+const PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>';
+const nomeVideo=i=>VIDEOS[i].titulo||"Estrutura Celebre Lavie";
+const lazyCapas=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const v=e.target;v.src=v.dataset.src;v.preload="metadata";lazyCapas.unobserve(v);}}),{rootMargin:"200px"}):null;
+
+VIDEOS.forEach((v,i)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="v-card rv"+(i===0?" destaque":"")+(i===5?" destaque dir":"");
+  b.style.setProperty("--d",((i%5)*.07)+"s");
+  b.setAttribute("aria-label","Assistir vídeo "+(i+1)+": "+nomeVideo(i));
+  let capa;
+  if(v.capa){capa=new Image();capa.src=v.capa;capa.alt="";capa.loading="lazy";}
+  else if(v.arquivo){ // sem capa: mostra o 1º quadro, carregando só os metadados quando o card aparece
+    capa=document.createElement("video");capa.muted=true;capa.playsInline=true;capa.preload="none";capa.dataset.src=v.arquivo+"#t=0.5";
+    if(lazyCapas)lazyCapas.observe(capa);else capa.src=capa.dataset.src;
+  } else {
+    const c=CENAS_VIDEO[i];capasDemo[i]=pintar(c[0],1280,720,c[1]);capa=new Image();capa.src=capasDemo[i];capa.alt="";
+  }
+  capa.className="v-capa";capa.setAttribute("aria-hidden","true");
+  b.appendChild(capa);
+  b.insertAdjacentHTML("beforeend",`<span class="v-play">${PLAY}</span><span class="v-info"><span class="v-num">${String(i+1).padStart(2,"0")}</span><span class="v-tit">${nomeVideo(i).replace(/</g,"&lt;")}</span></span>${v.arquivo?"":'<span class="demo">Vídeo demonstrativo</span>'}`);
+  b.addEventListener("click",()=>abrirVideo(i));
+  gradeV.appendChild(b);
+});
+
+/* Player: só carrega o vídeo escolhido */
+const lb=document.getElementById("lb"),midia=document.getElementById("lbMidia"),lbLeg=document.getElementById("lbLeg"),lbCont=document.getElementById("lbCont");
+let atualV=0,ultimoFoco=null,animDemo=null;
+function limparMidia(){
+  cancelAnimationFrame(animDemo);animDemo=null;
+  const vid=midia.querySelector("video");if(vid){vid.pause();vid.removeAttribute("src");vid.load();}
+  midia.innerHTML="";
+}
+function carregarVideo(i){
+  atualV=(i+VIDEOS.length)%VIDEOS.length;limparMidia();
+  const v=VIDEOS[atualV];
+  lbCont.textContent=(atualV+1)+" / "+VIDEOS.length;
+  if(v.arquivo){
+    const el=document.createElement("video");
+    el.controls=true;el.playsInline=true;el.setAttribute("playsinline","");el.preload="auto";
+    if(v.capa)el.poster=v.capa;el.src=v.arquivo;midia.appendChild(el);
+    el.play().catch(()=>{});
+    lbLeg.innerHTML=nomeVideo(atualV).replace(/</g,"&lt;");
+  } else {
+    // Demonstração: movimento de câmera lento sobre a cena, até o vídeo oficial ser inserido
+    const cv=document.createElement("canvas");cv.width=1280;cv.height=720;midia.appendChild(cv);
+    const barra=document.createElement("span");barra.className="barra";midia.appendChild(barra);
+    midia.insertAdjacentHTML("beforeend",'<span class="demo">Vídeo demonstrativo</span>');
+    const img=new Image(),ctx=cv.getContext("2d"),dur=12000,t0=performance.now(),dir=atualV%2?1:-1;
+    img.onload=()=>{const passo=t=>{const p=((t-t0)%dur)/dur,e=.5-.5*Math.cos(p*Math.PI*2),s=1.04+.14*e;
+      const w=1280*s,h=720*s;ctx.drawImage(img,(1280-w)/2+dir*60*e,(720-h)/2-20*e,w,h);barra.style.width=(p*100)+"%";animDemo=requestAnimationFrame(passo);};animDemo=requestAnimationFrame(passo);};
+    img.src=capasDemo[atualV]||pintar(CENAS_VIDEO[atualV][0],1280,720,CENAS_VIDEO[atualV][1]);
+    lbLeg.innerHTML=nomeVideo(atualV).replace(/</g,"&lt;")+"<small>O vídeo oficial aparecerá aqui.</small>";
+  }
+}
+function abrirVideo(i){ultimoFoco=document.activeElement;lb.hidden=false;requestAnimationFrame(()=>lb.classList.add("on"));document.body.style.overflow="hidden";carregarVideo(i);document.getElementById("lbFechar").focus({preventScroll:true});}
+function fecharVideo(){lb.classList.remove("on");document.body.style.overflow="";limparMidia();setTimeout(()=>{lb.hidden=true;},450);if(ultimoFoco)ultimoFoco.focus({preventScroll:true});}
+document.getElementById("lbFechar").onclick=fecharVideo;
+document.getElementById("lbAnt").onclick=()=>carregarVideo(atualV-1);
+document.getElementById("lbProx").onclick=()=>carregarVideo(atualV+1);
+lb.addEventListener("click",e=>{if(e.target===lb||e.target.classList.contains("lb-palco"))fecharVideo();});
+document.addEventListener("keydown",e=>{if(lb.hidden)return;if(e.key==="Escape")fecharVideo();if(e.key==="ArrowLeft")carregarVideo(atualV-1);if(e.key==="ArrowRight")carregarVideo(atualV+1);});
+let tx0=null;lb.addEventListener("touchstart",e=>{tx0=e.touches[0].clientX},{passive:true});
+lb.addEventListener("touchend",e=>{if(tx0===null)return;const dx=e.changedTouches[0].clientX-tx0;if(Math.abs(dx)>60&&!e.target.closest("video"))carregarVideo(atualV+(dx<0?1:-1));tx0=null;});
+
+/* ---------- Tipos de celebração ---------- */
+const gradeC=document.getElementById("celebracoesGrid"),selTipo=document.getElementById("f-tipo");
+const SETA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
+CELEBRACOES.forEach((c,i)=>{
+  const a=document.createElement("a");a.className="cel rv";a.href="#orcamento";a.style.setProperty("--d",(i%3)*.1+"s");
+  a.setAttribute("aria-label",c.nome+": solicitar orçamento");
+  a.innerHTML=`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">${c.icone}</svg><h3>${c.nome}</h3><p>${c.texto}</p><span class="ir">Solicitar orçamento ${SETA}</span>`;
+  a.addEventListener("click",e=>{e.preventDefault();escolherEvento(c.nome);});
+  gradeC.appendChild(a);
+  const o=document.createElement("option");o.value=c.nome;o.textContent=c.nome;selTipo.appendChild(o);
+});
+function escolherEvento(nome){
+  selTipo.value=nome;limparErro("tipo");
+  document.getElementById("orcamento").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+  const campo=document.getElementById("campoTipo");campo.classList.remove("destacado");void campo.offsetWidth;campo.classList.add("destacado");
+  setTimeout(()=>{const nomeInput=document.getElementById("f-nome");(nomeInput.value?selTipo:nomeInput).focus({preventScroll:true});},700);
+}
+
+/* ---------- Formulário de orçamento ---------- */
+const NUMERO_WHATS=CONTATO.whatsapp;
+const form=document.getElementById("form"),fNome=document.getElementById("f-nome"),fTel=document.getElementById("f-tel"),fData=document.getElementById("f-data"),fConv=document.getElementById("f-conv"),fMsg=document.getElementById("f-msg"),statusBox=document.getElementById("status");
+
+function hojeISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+fData.min=hojeISO();
+
+fTel.addEventListener("input",()=>{
+  const d=fTel.value.replace(/\D/g,"").slice(0,11),ddd=d.slice(0,2),r=d.slice(2);
+  fTel.value=!d?"":d.length<=2?"("+d:r.length<=4?`(${ddd}) ${r}`:d.length<=10?`(${ddd}) ${r.slice(0,4)}-${r.slice(4)}`:`(${ddd}) ${r.slice(0,5)}-${r.slice(5)}`;
+  if(d.length>=10)limparErro("tel");
+});
+fConv.addEventListener("input",()=>{fConv.value=fConv.value.replace(/\D/g,"").replace(/^0+/,"").slice(0,5);if(fConv.value)limparErro("conv");});
+fNome.addEventListener("input",()=>{if(fNome.value.trim().length>=3)limparErro("nome");});
+selTipo.addEventListener("change",()=>limparErro("tipo"));
+fData.addEventListener("change",()=>{if(fData.value&&fData.value>=hojeISO())limparErro("data");});
+
+function erro(id,msg){const e=document.getElementById("e-"+id);e.textContent=msg;e.parentElement.classList.add("invalido");}
+function limparErro(id){const e=document.getElementById("e-"+id);e.textContent="";e.parentElement.classList.remove("invalido");}
+function dataBR(iso){const [a,m,d]=iso.split("-");return d+"/"+m+"/"+a;}
+
+form.addEventListener("submit",e=>{
+  e.preventDefault();
+  let primeiro=null;const marca=(id,el,msg)=>{erro(id,msg);if(!primeiro)primeiro=el;};
+  ["nome","tel","tipo","data","conv"].forEach(limparErro);
+  const nome=fNome.value.trim().replace(/\s+/g," ");
+  const tel=fTel.value.replace(/\D/g,"");
+  const conv=parseInt(fConv.value,10);
+  if(nome.length<3)marca("nome",fNome,"Informe seu nome completo.");
+  if(tel.length<10)marca("tel",fTel,"Informe um telefone com DDD, no formato (DDD) 99999-9999.");
+  if(!selTipo.value)marca("tipo",selTipo,"Selecione o tipo de evento.");
+  if(!fData.value)marca("data",fData,"Escolha a data prevista do evento.");
+  else if(fData.value<hojeISO())marca("data",fData,"Escolha uma data a partir de hoje.");
+  if(!fConv.value||!(conv>0))marca("conv",fConv,"Informe a quantidade de convidados (apenas números).");
+  if(primeiro){primeiro.focus();statusBox.hidden=true;return;}
+
+  const linhas=[
+    "Olá! Gostaria de solicitar um orçamento para realizar meu evento na Celebre Lavie.","",
+    "Nome: "+nome,"",
+    "Telefone: "+fTel.value,"",
+    "Tipo de evento: "+selTipo.value,"",
+    "Data prevista: "+dataBR(fData.value),"",
+    "Quantidade de convidados: "+conv,""
+  ];
+  const msg=fMsg.value.trim();
+  if(msg)linhas.push("Mensagem adicional: "+msg,"");
+  linhas.push("Aguardo o contato de vocês!");
+  const url="https://wa.me/"+NUMERO_WHATS+"?text="+encodeURIComponent(linhas.join("\n"));
+
+  document.getElementById("linkStatus").href=url;
+  statusBox.hidden=false;
+  const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+});
+
+/* ---------- Contato ---------- */
+const ICONES={
+  whats:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20l1.3-4A8.5 8.5 0 1 1 8.2 19z"/></svg>',
+  local:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  insta:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5.5" width="18" height="13"/><path d="M3 6l9 7 9-7"/></svg>'
+};
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const itens=[
+  ["whats","WhatsApp",CONTATO.telefone,CONTATO.whatsapp?`https://wa.me/${CONTATO.whatsapp}`:""],
+  ["insta","Instagram",CONTATO.instagram?"@"+CONTATO.instagram:"",CONTATO.instagram?`https://www.instagram.com/${CONTATO.instagram}/`:""],
+  ["local","Endereço",CONTATO.endereco,CONTATO.endereco?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTATO.endereco)}`:""],
+  ["mail","E-mail",CONTATO.email,""]
+];
+document.getElementById("dados").innerHTML=itens.map(([ic,rot,val,link],i)=>`<li class="rv" style="--d:${.1+i*.1}s"><span class="ic">${ICONES[ic]}</span><div><small>${rot}</small><span class="valor">${val?(link?`<a href="${esc(link)}" target="_blank" rel="noopener">${esc(val)}</a>`:esc(val)):'<span class="vazio">A inserir</span>'}</span></div></li>`).join("");
+document.getElementById("ano").textContent=new Date().getFullYear();
+
+/* Letras do nome */
+const marca=document.getElementById("marca");
+marca.innerHTML=[..."CELEBRE LAVIE"].map((ch,i)=>ch===" "?'<span class="esp" aria-hidden="true"></span>':`<span class="l${i>=8?" ouro":""}" style="--i:${i}" aria-hidden="true">${ch}</span>`).join("");
+
+/* Animações ao rolar — repetem ao descer e ao subir */
+const reduz=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if("IntersectionObserver" in window && !reduz){
+  document.documentElement.classList.add("anima");
+  const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("in",e.isIntersecting)),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  document.querySelectorAll(".rv, .marca").forEach(el=>io.observe(el));
+}
+
+/* Menu */
+const topo=document.getElementById("topo"),burguer=document.getElementById("burguer");
+burguer.onclick=()=>{const ab=topo.classList.toggle("aberto");burguer.setAttribute("aria-expanded",ab);burguer.setAttribute("aria-label",ab?"Fechar menu":"Abrir menu");document.body.style.overflow=ab?"hidden":"";};
+document.querySelectorAll(".menu a").forEach(a=>a.addEventListener("click",()=>{topo.classList.remove("aberto");burguer.setAttribute("aria-expanded","false");document.body.style.overflow="";}));
+const secoes=[...document.querySelectorAll("main section")],links=[...document.querySelectorAll(".menu a")];
+const heroFoto=document.getElementById("heroFoto");
+function rolar(){
+  topo.classList.toggle("solido",scrollY>40);
+  let atual=secoes[0].id;secoes.forEach(s=>{if(s.getBoundingClientRect().top<innerHeight*.4)atual=s.id;});
+  links.forEach(a=>a.classList.toggle("ativo",a.getAttribute("href")==="#"+atual));
+  if(!reduz){const img=heroFoto.querySelector("img");const rr=heroFoto.getBoundingClientRect();if(img&&rr.bottom>0&&rr.top<innerHeight){heroFoto.classList.add("mov");img.style.transform=`scale(1.08) translateY(${(rr.top-innerHeight/2)*-.04}px)`;}}
+}
+addEventListener("scroll",rolar,{passive:true});rolar();
+</script>
+</body>
+</html>
